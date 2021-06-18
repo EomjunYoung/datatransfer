@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.datatransfer.databinding.FragmentFirstBinding
 
@@ -26,6 +28,12 @@ private const val ARG_PARAM2 = "param2"
 class FirstFragment : Fragment(R.layout.fragment_first) {
 
     private lateinit var binding: FragmentFirstBinding
+    //TODO: 만약 아래와같이(평소쓰던대로) 뷰모델을 만들면 액티비티가 아닌
+    //TODO: 이 FirstFragment의 생명주기에 맞는 뷰모델이 생성되므로 화면전환시 파괴됨..
+    //val mainViewModel by viewModels<MainViewModel>()
+
+    //TODO: 이렇게해야 이 FirstFragment가 포함된 액티비티의 뷰모델을 사용함(액티비티 생명주기를 따름)
+    val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,6 +44,7 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
 
         binding2.button.setOnClickListener {
 
+            mainViewModel.data = "Hello"
             findNavController().navigate(R.id.action_firstFragment_to_secondFragment)
 
         }
