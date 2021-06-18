@@ -4,14 +4,12 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.core.os.bundleOf
+import androidx.fragment.app.*
 import androidx.navigation.fragment.findNavController
 import com.example.datatransfer.databinding.FragmentFirstBinding
 
@@ -42,9 +40,23 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
 
         val binding2 = FragmentFirstBinding.bind(view) // fragment에서 viewBinding 하는법
 
+        //TODO: Fragment간의 데이터공유를 위해 뷰모델이 아닌 Listener로 하는 방법
+        //아래는 secondfragment에서 보낸 데이터를 받는 코드
+        setFragmentResultListener("requestKey") { resultKey, bundle ->
+            val data = bundle.getString("data", "")
+
+            Toast.makeText(requireContext(), data, Toast.LENGTH_LONG).show()
+
+        }
+
         binding2.button.setOnClickListener {
 
-            mainViewModel.data = "Hello"
+//            mainViewModel.data = "Hello"
+
+            //TODO: Fragment간의 데이터공유를 위해 뷰모델이 아닌 방법 fragment2로 데이터를 보냄
+            setFragmentResult("requestKey", bundleOf("data" to "hello"))
+            //bundleof는 bundle을 만들어서 데이터를 넣는 방법임
+
             findNavController().navigate(R.id.action_firstFragment_to_secondFragment)
 
         }

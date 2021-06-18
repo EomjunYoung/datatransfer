@@ -49,4 +49,7 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //fragment의 데이터를 공유하기 위한 google의 권장사항
+    implementation 'androidx.fragment:fragment-ktx:1.3.0-alpha06'
 }
